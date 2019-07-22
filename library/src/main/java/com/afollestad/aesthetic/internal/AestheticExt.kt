@@ -119,8 +119,8 @@ internal fun addImageTintSubscriber(
 }
 
 internal fun addIconTintSubscriber(
-    button: MaterialButton,
-    colorObservable: Observable<Int>?
+  button: MaterialButton,
+  colorObservable: Observable<Int>?
 ) {
   if (colorObservable == null) {
     return
