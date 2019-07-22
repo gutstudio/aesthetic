@@ -64,6 +64,7 @@ import com.afollestad.aesthetic.views.AestheticTextInputEditText
 import com.afollestad.aesthetic.views.AestheticTextInputLayout
 import com.afollestad.aesthetic.views.AestheticToolbar
 import com.afollestad.aesthetic.views.AestheticViewPager
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.internal.NavigationMenuItemView
 
 /** @author Aidan Follestad (afollestad) */
@@ -142,6 +143,7 @@ internal class InflationInterceptor(
     var textColorValue = ""
     var hintTextColorValue = ""
     var tintValue = ""
+    var iconTintValue = ""
 
     if (view.shouldIgnore()) {
       // Set view back to null so we can let AndroidX handle this view instead.
@@ -152,6 +154,7 @@ internal class InflationInterceptor(
       textColorValue = wizard.getRawValue(android.R.attr.textColor)
       hintTextColorValue = wizard.getRawValue(android.R.attr.textColorHint)
       tintValue = wizard.getRawValue(R.attr.tint)
+      iconTintValue = wizard.getRawValue(R.attr.iconTint)
     }
 
     // If view is null, let the activity try to create it
@@ -211,6 +214,10 @@ internal class InflationInterceptor(
     }
     if (tintValue.isNotEmpty()) {
       addImageTintSubscriber(view, get().observableForAttrName(tintValue))
+    }
+
+    if (view is MaterialButton && iconTintValue.isNotEmpty()) {
+      addIconTintSubscriber(view, get().observableForAttrName(iconTintValue))
     }
 
     val idName = "${context.resources.safeResourceName(view.id)} "

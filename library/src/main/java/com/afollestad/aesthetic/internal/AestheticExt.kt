@@ -29,21 +29,9 @@ import com.afollestad.aesthetic.AutoSwitchMode
 import com.afollestad.aesthetic.AutoSwitchMode.OFF
 import com.afollestad.aesthetic.AutoSwitchMode.ON
 import com.afollestad.aesthetic.R
-import com.afollestad.aesthetic.utils.clear
-import com.afollestad.aesthetic.utils.distinctToMainThread
-import com.afollestad.aesthetic.utils.getRootView
-import com.afollestad.aesthetic.utils.isColorLight
-import com.afollestad.aesthetic.utils.safeResourceName
-import com.afollestad.aesthetic.utils.setLightNavBarCompat
-import com.afollestad.aesthetic.utils.setLightStatusBarCompat
-import com.afollestad.aesthetic.utils.setNavBarColorCompat
-import com.afollestad.aesthetic.utils.setStatusBarColorCompat
-import com.afollestad.aesthetic.utils.subscribeBackgroundColor
-import com.afollestad.aesthetic.utils.subscribeHintTextColor
-import com.afollestad.aesthetic.utils.subscribeImageViewTint
-import com.afollestad.aesthetic.utils.subscribeTextColor
-import com.afollestad.aesthetic.utils.unsubscribeOnDetach
+import com.afollestad.aesthetic.utils.*
 import com.afollestad.rxkprefs.rxkPrefs
+import com.google.android.material.button.MaterialButton
 import io.reactivex.Observable
 import java.lang.String.format
 
@@ -114,6 +102,19 @@ internal fun addImageTintSubscriber(
       .distinctToMainThread()
       .subscribeImageViewTint(view)
       .unsubscribeOnDetach(view)
+}
+
+internal fun addIconTintSubscriber(
+    button: MaterialButton,
+    colorObservable: Observable<Int>?
+) {
+  if (colorObservable == null) {
+    return
+  }
+  colorObservable
+      .distinctToMainThread()
+      .subscribeIconTint(button)
+      .unsubscribeOnDetach(button)
 }
 
 internal fun Aesthetic.invalidateStatusBar(colorAndMode: Pair<Int, AutoSwitchMode>) {

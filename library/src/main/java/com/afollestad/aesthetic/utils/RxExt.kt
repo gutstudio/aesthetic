@@ -15,12 +15,14 @@
  */
 package com.afollestad.aesthetic.utils
 
+import android.content.res.ColorStateList
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.CheckResult
 import androidx.cardview.widget.CardView
 import com.afollestad.aesthetic.blowUp
+import com.google.android.material.button.MaterialButton
 import io.reactivex.Observable
 import io.reactivex.Observable.combineLatest
 import io.reactivex.ObservableSource
@@ -110,6 +112,13 @@ fun Observable<Int>.subscribeHintTextColor(view: View): Disposable {
 fun Observable<Int>.subscribeImageViewTint(view: View): Disposable {
   if (view !is ImageView) return empty()
   return subscribeTo(view::setColorFilter)
+}
+
+fun Observable<Int>.subscribeIconTint(button: MaterialButton): Disposable {
+  if (button !is MaterialButton) return empty()
+  return subscribeTo {
+    button.iconTint = ColorStateList.valueOf(it)
+  }
 }
 
 /**
