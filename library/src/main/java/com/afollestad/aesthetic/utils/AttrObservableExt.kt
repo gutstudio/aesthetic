@@ -44,6 +44,10 @@ import io.reactivex.Observable.empty
     "?android:attr/textColorSecondary" -> textColorSecondary()
     "?android:attr/textColorSecondaryInverse" -> textColorSecondaryInverse()
 
-    else -> fallback ?: attribute(name.substring(1))
+    else -> try {
+      attribute(name.substring(1))
+    } catch (ex: Exception) {
+      null
+    } ?: fallback
   }
 }
