@@ -19,6 +19,7 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.CheckResult
 import androidx.cardview.widget.CardView
@@ -138,6 +139,13 @@ fun Observable<Int>.subscribeBackgroundTint(view: View): Disposable {
   if (view !is MaterialButton) return empty()
   return subscribeTo {
     view.backgroundTintList = ColorStateList.valueOf(it)
+  }
+}
+
+fun Observable<Int>.subscribeIndeterminateTint(view: View): Disposable {
+  if (view !is ProgressBar) return empty()
+  return subscribeTo {
+    DrawableCompat.setTint(view.indeterminateDrawable, it)
   }
 }
 

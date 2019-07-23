@@ -46,6 +46,7 @@ import com.afollestad.aesthetic.utils.unsubscribeOnDetach
 import com.afollestad.aesthetic.utils.subscribeIconTint
 import com.afollestad.aesthetic.utils.subscribeDrawableTint
 import com.afollestad.aesthetic.utils.subscribeBackgroundTint
+import com.afollestad.aesthetic.utils.subscribeIndeterminateTint
 import com.afollestad.rxkprefs.rxkPrefs
 import com.google.android.material.button.MaterialButton
 import io.reactivex.Observable
@@ -154,6 +155,19 @@ internal fun addBackgroundTintSubscriber(
   colorObservable
       .distinctToMainThread()
       .subscribeBackgroundTint(view)
+      .unsubscribeOnDetach(view)
+}
+
+internal fun addIndeterminateTintSubscriber(
+  view: View,
+  colorObservable: Observable<Int>?
+) {
+  if (colorObservable == null) {
+    return
+  }
+  colorObservable
+      .distinctToMainThread()
+      .subscribeIndeterminateTint(view)
       .unsubscribeOnDetach(view)
 }
 

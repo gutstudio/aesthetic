@@ -21,6 +21,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -146,6 +147,7 @@ internal class InflationInterceptor(
     var iconTintValue = ""
     var drawableTintValue = ""
     var backgroundTintValue = ""
+    var indeterminateTintValue = ""
 
     if (view.shouldIgnore()) {
       // Set view back to null so we can let AndroidX handle this view instead.
@@ -157,8 +159,9 @@ internal class InflationInterceptor(
       hintTextColorValue = wizard.getRawValue(android.R.attr.textColorHint)
       tintValue = wizard.getRawValue(R.attr.tint)
       iconTintValue = wizard.getRawValue(R.attr.iconTint)
-      drawableTintValue = wizard.getRawValue(android.R.attr.drawableTint)
+      drawableTintValue = wizard.getRawValue(android.R.attr.drawableTint) // This only works on >= API Level 23
       backgroundTintValue = wizard.getRawValue(android.R.attr.backgroundTint)
+      indeterminateTintValue = wizard.getRawValue(android.R.attr.indeterminateTint)
     }
 
     // If view is null, let the activity try to create it
@@ -230,6 +233,12 @@ internal class InflationInterceptor(
 
       if (backgroundTintValue.isNotEmpty()) {
         addBackgroundSubscriber(view, get().observableForAttrName(backgroundTintValue))
+      }
+    }
+
+    if (view is ProgressBar) {
+      if (indeterminateTintValue.isNotEmpty()) {
+        addIndeterminateTintSubscriber(view, get().observableForAttrName(indeterminateTintValue))
       }
     }
 
