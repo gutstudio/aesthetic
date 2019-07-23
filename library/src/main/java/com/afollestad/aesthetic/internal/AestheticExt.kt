@@ -45,6 +45,7 @@ import com.afollestad.aesthetic.utils.subscribeTextColor
 import com.afollestad.aesthetic.utils.unsubscribeOnDetach
 import com.afollestad.aesthetic.utils.subscribeIconTint
 import com.afollestad.aesthetic.utils.subscribeDrawableTint
+import com.afollestad.aesthetic.utils.subscribeBackgroundTint
 import com.afollestad.rxkprefs.rxkPrefs
 import com.google.android.material.button.MaterialButton
 import io.reactivex.Observable
@@ -141,6 +142,19 @@ internal fun addIconTintSubscriber(
       .distinctToMainThread()
       .subscribeIconTint(button)
       .unsubscribeOnDetach(button)
+}
+
+internal fun addBackgroundTintSubscriber(
+  view: View,
+  colorObservable: Observable<Int>?
+) {
+  if (colorObservable == null) {
+    return
+  }
+  colorObservable
+      .distinctToMainThread()
+      .subscribeBackgroundTint(view)
+      .unsubscribeOnDetach(view)
 }
 
 internal fun Aesthetic.invalidateStatusBar(colorAndMode: Pair<Int, AutoSwitchMode>) {

@@ -134,6 +134,13 @@ fun Observable<Int>.subscribeIconTint(button: MaterialButton): Disposable {
   }
 }
 
+fun Observable<Int>.subscribeBackgroundTint(view: View): Disposable {
+  if (view !is MaterialButton) return empty()
+  return subscribeTo {
+    view.backgroundTintList = ColorStateList.valueOf(it)
+  }
+}
+
 /**
  * We use this to we don't get lint warnings when using flatMap. Since Observable.flatMap is
  * a Java function and does not have nullability annotations, it can "possibly be null"

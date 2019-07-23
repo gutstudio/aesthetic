@@ -145,6 +145,7 @@ internal class InflationInterceptor(
     var tintValue = ""
     var iconTintValue = ""
     var drawableTintValue = ""
+    var backgroundTintValue = ""
 
     if (view.shouldIgnore()) {
       // Set view back to null so we can let AndroidX handle this view instead.
@@ -157,6 +158,7 @@ internal class InflationInterceptor(
       tintValue = wizard.getRawValue(R.attr.tint)
       iconTintValue = wizard.getRawValue(R.attr.iconTint)
       drawableTintValue = wizard.getRawValue(android.R.attr.drawableTint)
+      backgroundTintValue = wizard.getRawValue(android.R.attr.backgroundTint)
     }
 
     // If view is null, let the activity try to create it
@@ -221,8 +223,14 @@ internal class InflationInterceptor(
       addImageTintSubscriber(view, get().observableForAttrName(tintValue))
     }
 
-    if (view is MaterialButton && iconTintValue.isNotEmpty()) {
-      addIconTintSubscriber(view, get().observableForAttrName(iconTintValue))
+    if (view is MaterialButton) {
+      if (iconTintValue.isNotEmpty()) {
+        addIconTintSubscriber(view, get().observableForAttrName(iconTintValue))
+      }
+
+      if (backgroundTintValue.isNotEmpty()) {
+        addBackgroundSubscriber(view, get().observableForAttrName(backgroundTintValue))
+      }
     }
 
     val idName = "${context.resources.safeResourceName(view.id)} "
