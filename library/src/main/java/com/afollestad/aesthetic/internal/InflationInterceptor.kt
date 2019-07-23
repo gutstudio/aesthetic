@@ -144,6 +144,7 @@ internal class InflationInterceptor(
     var hintTextColorValue = ""
     var tintValue = ""
     var iconTintValue = ""
+    var drawableTintValue = ""
 
     if (view.shouldIgnore()) {
       // Set view back to null so we can let AndroidX handle this view instead.
@@ -155,6 +156,7 @@ internal class InflationInterceptor(
       hintTextColorValue = wizard.getRawValue(android.R.attr.textColorHint)
       tintValue = wizard.getRawValue(R.attr.tint)
       iconTintValue = wizard.getRawValue(R.attr.iconTint)
+      drawableTintValue = wizard.getRawValue(android.R.attr.drawableTint)
     }
 
     // If view is null, let the activity try to create it
@@ -210,6 +212,9 @@ internal class InflationInterceptor(
       }
       if (hintTextColorValue.isNotEmpty()) {
         addHintTextColorSubscriber(view, get().observableForAttrName(hintTextColorValue))
+      }
+      if (drawableTintValue.isNotEmpty()) {
+        addDrawableTintSubscriber(view, get().observableForAttrName(drawableTintValue))
       }
     }
     if (tintValue.isNotEmpty()) {

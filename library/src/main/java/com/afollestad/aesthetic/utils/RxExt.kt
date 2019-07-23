@@ -16,11 +16,13 @@
 package com.afollestad.aesthetic.utils
 
 import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.CheckResult
 import androidx.cardview.widget.CardView
+import androidx.core.graphics.drawable.DrawableCompat
 import com.afollestad.aesthetic.blowUp
 import com.google.android.material.button.MaterialButton
 import io.reactivex.Observable
@@ -107,6 +109,17 @@ fun Observable<Int>.subscribeTextColor(view: View): Disposable {
 fun Observable<Int>.subscribeHintTextColor(view: View): Disposable {
   if (view !is TextView) return empty()
   return subscribeTo(view::setHintTextColor)
+}
+
+fun Observable<Int>.subscribeDrawableTint(view: View): Disposable {
+  if (view !is TextView) return empty()
+  return subscribeTo {
+    view.compoundDrawables?.forEach { drawable: Drawable? ->
+      drawable?.let { d ->
+        DrawableCompat.setTint(d, it)
+      }
+    }
+  }
 }
 
 fun Observable<Int>.subscribeImageViewTint(view: View): Disposable {

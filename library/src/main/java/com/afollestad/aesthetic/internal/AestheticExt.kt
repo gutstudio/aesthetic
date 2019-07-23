@@ -44,6 +44,7 @@ import com.afollestad.aesthetic.utils.subscribeImageViewTint
 import com.afollestad.aesthetic.utils.subscribeTextColor
 import com.afollestad.aesthetic.utils.unsubscribeOnDetach
 import com.afollestad.aesthetic.utils.subscribeIconTint
+import com.afollestad.aesthetic.utils.subscribeDrawableTint
 import com.afollestad.rxkprefs.rxkPrefs
 import com.google.android.material.button.MaterialButton
 import io.reactivex.Observable
@@ -102,6 +103,17 @@ internal fun addHintTextColorSubscriber(
   colorObservable
       .distinctToMainThread()
       .subscribeHintTextColor(view)
+      .unsubscribeOnDetach(view)
+}
+
+internal fun addDrawableTintSubscriber(
+  view: View,
+  colorObservable: Observable<Int>?
+) {
+  if (colorObservable == null) return
+  colorObservable
+      .distinctToMainThread()
+      .subscribeDrawableTint(view)
       .unsubscribeOnDetach(view)
 }
 
